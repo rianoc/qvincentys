@@ -1,6 +1,4 @@
-# vincentys-formula
-
-Vincenty's formula for q
+# Vincenty's formula for q
 
 Build:
 

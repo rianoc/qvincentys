@@ -35,6 +35,7 @@ K vinc(K latpk, K longpk, K latck, K longck) {
         sin_sigma = sqrt(pow((cos(u2) * sin(lam)), 2.) + pow(cos(u1)*sin(u2) - sin(u1)*cos(u2)*cos(lam), 2.));
         cos_sigma = sin(u1) * sin(u2) + cos(u1) * cos(u2) * cos(lam);
         sigma = atan(sin_sigma / cos_sigma);
+        if (sigma <= 0) sigma = M_PI + sigma;
         sin_alpha = (cos(u1) * cos(u2) * sin(lam)) / sin_sigma;
         cos_sq_alpha = 1 - pow(sin_alpha, 2.);
         cos2sigma = cos_sigma - ((2 * sin(u1) * sin(u2)) / cos_sq_alpha);
@@ -52,7 +53,6 @@ K vinc(K latpk, K longpk, K latck, K longck) {
                                                          (-3 + 4 * pow(cos2sigma, 2.))));
     dis = rpol * A * (sigma - delta_sig);
     azi1 = atan2((cos(u2) * sin(lam)), (cos(u1) * sin(u2) - sin(u1) * cos(u2) * cos(lam)));
-
     
     kF(res)[0]=dis;
     kF(res)[1]=azi1;

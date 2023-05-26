@@ -5,11 +5,17 @@
 
 K vinc(K latpk, K longpk, K latck, K longck) {
     double req = 6378137.0;             //Radius at equator
-    double flat = 1 / 298.257223563;    //flattenig of earth
+    double flat = 1 / 298.257223563;    //flattening of earth
     double rpol = (1 - flat) * req;
 
     double u1, u2, lon, lam, tol, diff, sin_sigma, cos_sigma, sigma, sin_alpha, cos_sq_alpha, cos2sigma;
     double A, B, C, lam_pre, delta_sig, dis, azi1, usq;
+
+    K res = ktn(KF, 2);
+    kF(res)[0]=0;
+    kF(res)[1]=0;
+
+    if (((latpk->f) + (longpk->f)) == ((latck->f) + (longck->f))) return(res);
 
     // convert to radians
     double latp = M_PI * (latpk->f) / 180.0;
@@ -47,7 +53,7 @@ K vinc(K latpk, K longpk, K latck, K longck) {
     dis = rpol * A * (sigma - delta_sig);
     azi1 = atan2((cos(u2) * sin(lam)), (cos(u1) * sin(u2) - sin(u1) * cos(u2) * cos(lam)));
 
-    K res = ktn(KF, 2);
+    
     kF(res)[0]=dis;
     kF(res)[1]=azi1;
     return(res);

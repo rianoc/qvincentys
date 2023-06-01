@@ -7,7 +7,7 @@ typedef struct geom {
     double sin_sigma, cos_sigma, sigma, sin_alpha, cos_sq_alpha, cos2sigma;
 } geom; 
 
-struct geom calcgeo(geom *g, double lam, double u1, double u2) {
+void calcgeo(geom *g, double lam, double u1, double u2) {
 
     (*g).sin_sigma = sqrt(pow((cos(u2) * sin(lam)), 2.) + pow(cos(u1)*sin(u2) - sin(u1)*cos(u2)*cos(lam), 2.));
     (*g).cos_sigma = sin(u1) * sin(u2) + cos(u1) * cos(u2) * cos(lam);
@@ -17,7 +17,6 @@ struct geom calcgeo(geom *g, double lam, double u1, double u2) {
     (*g).cos_sq_alpha = 1 - pow((*g).sin_alpha, 2.);
     (*g).cos2sigma = (*g).cos_sigma - ((2 * sin(u1) * sin(u2)) / (*g).cos_sq_alpha);
 
-    return(*g);
 };
 
 K vinc(K latpk, K longpk, K latck, K longck) {

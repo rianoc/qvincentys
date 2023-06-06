@@ -30,9 +30,7 @@ K vinc(K latpk, K longpk, K latck, K longck) {
     double u1, u2, lon, lam, tol, diff;
     double A, B, C, lam_pre, delta_sig, dis, azi1, usq;
 
-    K res = ktn(KF, 2);
-    kF(res)[0]=0;
-    kF(res)[1]=0;
+    K res = kf(0);
 
     if (((latpk->f) + (longpk->f)) == ((latck->f) + (longck->f))) return(res);
 
@@ -66,10 +64,8 @@ K vinc(K latpk, K longpk, K latck, K longck) {
     delta_sig = B * gvar.sin_sigma * (gvar.cos2sigma + 0.25 * B * (gvar.cos_sigma * (-1 + 2 * pow(gvar.cos2sigma, 2.)) -
                                                          (1 / 6) * B * gvar.cos2sigma * (-3 + 4 * pow(gvar.sin_sigma, 2.)) *
                                                          (-3 + 4 * pow(gvar.cos2sigma, 2.))));
-    dis = rpol * A * (gvar.sigma - delta_sig);
-    azi1 = atan2((cos(u2) * sin(lam)), (cos(u1) * sin(u2) - sin(u1) * cos(u2) * cos(lam)));
+
+    res = kf(0.001 * rpol * A * (gvar.sigma - delta_sig)); // convert to kms
     
-    kF(res)[0]=dis;
-    kF(res)[1]=azi1;
     return(res);
 }
